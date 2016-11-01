@@ -1,8 +1,6 @@
-
 import sys
 
 import py
-from _pytest.monkeypatch import monkeypatch
 
 def install_pytest_asserts():
     try:
@@ -18,12 +16,7 @@ def install_pytest_asserts():
             print('Can not use py.test asserts - no compatible python interpreter')
             return
 
-    from _pytest.assertion import reinterpret  # noqa
     from _pytest.assertion import rewrite  # noqa
-
-    m = monkeypatch()
-    m.setattr(py.builtin.builtins, 'AssertionError',
-              reinterpret.AssertionError)  # noqa
 
     hook = rewrite.AssertionRewritingHook()  # noqa
     sys.meta_path.insert(0, hook)
